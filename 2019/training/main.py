@@ -33,6 +33,11 @@ class PizzaPart:
     def __str__(self):
         return str(self.x1)+" "+str(self.y1)+" "+str(self.x2)+" "+str(self.y2)
 
+class Cell:
+    def __init__(self, x, y):
+        self.x=x
+        self.y=y
+
 
 def readFile(filename):
     file = open(filename, "r")
@@ -44,7 +49,34 @@ def readFile(filename):
             pizza.tab[x][y]=line[x]
     return pizza
 
-def createsParts(parts):
+def createsParts(pizza,parts):
+    print("createParts...")
+    #tab initialisation 
+    tab=[]
+    for x in range(pizza.w):
+        tab.append([])
+        for y in range(pizza.h):
+            tab[x].append(Cell(x,y))
+    #stats
+    tomatoes=0
+    mushrooms=0
+    for col in pizza.tab:
+        for c in col:
+            if c=='T':
+                tomatoes+=1
+            elif c=='M':
+                mushrooms+=1
+            else:
+                print("error:"+c)
+    print("T:"+str(tomatoes))
+    print("M:"+str(mushrooms))
+
+    #search
+    groupId=0
+    for col in tab:
+        for cell in col:
+            cell.groupId=groupId
+
     parts.append(PizzaPart(0,0,2,1))
     parts.append(PizzaPart(0,2,2,2))
     parts.append(PizzaPart(0,3,2,4))
@@ -59,8 +91,7 @@ def writeFile(filename, parts):
 def main(argv):
     parts = []
     pizza = readFile(argv[1])
-    createsParts(parts)
-    print(pizza)
+    createsParts(pizza,parts)
     for p in parts:
         print(" "+str(p))
 
