@@ -1,8 +1,3 @@
-#!/usr/bin/python
-
-import sys
-from pizza import Pizza, PizzaPart
-from logic import createsParts
 
 class Cell:
     def __init__(self, x, y):
@@ -38,25 +33,4 @@ def createsParts(pizza,parts):
     for col in tab:
         for cell in col:
             cell.groupId=groupId
-
-#   parts.append(PizzaPart(0,0,2,1))
-#   parts.append(PizzaPart(0,2,2,2))
-#   parts.append(PizzaPart(0,3,2,4))
-
-def writeFile(filename, parts):
-    file = open(filename, "w")
-    out = str(parts.length)+"\n"
-    for part in parts:
-        out+=str(part)+"\n"
-    print(filename)
-
-def main(argv):
-    parts = []
-    pizza = Pizza.readFile(argv[1])
-    createsParts(pizza,parts)
-    for p in parts:
-        print(" "+str(p))
-
-if __name__ == "__main__":
-    main(sys.argv);
 
