@@ -40,7 +40,16 @@ class PizzaPart:
         self.dy = dy
 
     def __str__(self):
-        return str(self.x)+" "+str(self.y)+" "+str(self.x+self.dx-1)+" "+str(self.y+self.dy-1)
+        return str(self.y)+" "+str(self.x)+" "+str(self.y+self.dy-1)+" "+str(self.x+self.dx-1)
 
     def count(self):
         return self.dx * self.dy
+
+    def fromFile(line):
+        part = PizzaPart(0,0,0,0)
+        part.y=int(line[0])
+        part.x=int(line[1])
+        part.dy=int(line[2])-part.y+1
+        part.dx=int(line[3])-part.x+1
+        return part
+

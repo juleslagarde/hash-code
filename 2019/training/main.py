@@ -20,6 +20,7 @@ def main(argv):
         exit()
     parts = {}
     pizza = readFile(argv[1])
+    print(str(pizza))
     createsParts(pizza, parts)
     writeFile(argv[2], parts.values())
     for p in parts:
