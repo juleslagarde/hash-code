@@ -59,7 +59,12 @@ class Warehouse:
     def __init__(self, id, file):
         self.id = id
         (self.r, self.c) = map(int, file.readline().split())
-        self.storage = map(int, file.readline().split())
+        self.storage = {}
+        p = 0
+        for n in map(int, file.readline().split()):
+            if n != 0:
+                storage[p] = n
+            p += 1
 
     def __str__(self):
         return str((self.id, (self.r, self.c), self.storage))
@@ -96,4 +101,3 @@ class Order:
 
 simulation = Simulation(in_file)
 simulation.printOut()
-
