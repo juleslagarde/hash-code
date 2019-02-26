@@ -1,4 +1,5 @@
 import math
+from solve2 import *
 
 IN_FOLDER = "../in/"
 OUT_FOLDER = "../out/"
@@ -63,7 +64,7 @@ class Warehouse:
         p = 0
         for n in map(int, file.readline().split()):
             if n != 0:
-                storage[p] = n
+                self.storage[p] = n
             p += 1
 
     def __str__(self):
@@ -101,3 +102,4 @@ class Order:
 
 simulation = Simulation(in_file)
 simulation.printOut()
+solve(simulation)

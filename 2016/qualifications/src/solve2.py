@@ -1,3 +1,4 @@
-def solve2(simulation):
+def solve(simulation):
     for t in range(0, simulation.T):
-        for drone in 
+        for drone in simulation.drones:
+            pass
