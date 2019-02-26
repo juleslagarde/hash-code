@@ -9,7 +9,7 @@ file_index = 0
 in_file = IN_FOLDER + FILES[file_index] + ".in"
 out_file = OUT_FOLDER + FILES[file_index] + ".out"
 
-<<<<<<< HEAD
+
 class Simulation:
     def __init__(self, filename):
         f = open(filename, "r")
@@ -71,12 +71,6 @@ class Order:
 
 simulation = Simulation(in_file)
 simulation.printOut()
-=======
-
-
-
-
-
 
 
 
@@ -94,4 +88,4 @@ def solve(simulation):
             if bestOrder != 0:
                 d.deliver(bestOrder)
         t += 1
->>>>>>> 140d8567f4bb50a554836f8828de98c13e8d2da7
+
