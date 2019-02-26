@@ -155,7 +155,7 @@ class Order:
         self.items_count = int(file.readline())
         self.items = {}
         for p in map(int, file.readline().split()):
-            if not self.items.has_key(p):
+            if p not in self.items:
                 self.items[p] = 1
             else:
                 self.items[p] += 1
