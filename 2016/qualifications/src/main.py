@@ -1,3 +1,5 @@
+import math
+
 IN_FOLDER = "../in/"
 OUT_FOLDER = "../out/"
 FILES = [
@@ -9,6 +11,10 @@ file_index = 0
 in_file = IN_FOLDER + FILES[file_index] + ".in"
 out_file = OUT_FOLDER + FILES[file_index] + ".out"
 
+def distance(r0, c0, r1, c1):
+    dr = r0-r1
+    dc = c0-c1
+    return math.ceil(math.sqrt(dr*dr+dc*dc))
 
 class Simulation:
     def __init__(self, filename):
@@ -56,6 +62,14 @@ class Drone:
         self.r = r
         self.c = c
         self.maxLoad = maxLoad
+        self.deliveryTime = 0
+
+    def scoreFor(self, simulation, order, time):
+        pass
+
+    def deliver(self, order):
+        pass
+
 
 class Order:
     def __init__(self, id, file):
@@ -71,21 +85,4 @@ class Order:
 
 simulation = Simulation(in_file)
 simulation.printOut()
-
-
-
-
-def solve(simulation):
-    t = 0
-    while t < simulation.T:
-        for d in simulation.drones:
-            bestScore = 0
-            bestOrder = 0
-            for o in simulation.orders:
-                if d.scoreFor(o, t) > bestScore:
-                    bestScore = d.scoreFor(o, t)  #
-                    bestOrder = o
-            if bestOrder != 0:
-                d.deliver(bestOrder)
-        t += 1
 
