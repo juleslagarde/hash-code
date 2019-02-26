@@ -3,6 +3,7 @@ import math
 IN_FOLDER = "../in/"
 OUT_FOLDER = "../out/"
 FILES = [
+    "example",
     "busy_day",
     "mother_of_all_warehouses",
     "redundancy",
@@ -19,7 +20,7 @@ def distance(r0, c0, r1, c1):
 class Simulation:
     def __init__(self, filename):
         f = open(filename, "r")
-        (self.R, self.C, self.D, self.T, self.MaxLoad) = map(int, f.readline().split())
+        (self.R, self.C, self.D, self.T, self.M) = map(int, f.readline().split())
 
         self.products = []
         self.P = int(f.readline())
@@ -41,14 +42,18 @@ class Simulation:
         self.drones = []
         (start_r, start_c) = (self.warehouses[0].r, self.warehouses[0].c)
         for d in range(0, self.D):
-            self.drones.append(Drone(d, start_r, start_c, self.MaxLoad))
+            self.drones.append(Drone(d, start_r, start_c, self.M))
 
     def printOut(self):
         print(self.R)
         print(self.C)
         print(self.D)
         print(self.T)
-        print(self.MaxLoad)
+        print(self.M)
+        for warehouse in self.warehouses:
+            print(warehouse)
+        for order in self.orders:
+            print(order)
 
 class Warehouse:
     def __init__(self, id, file):
@@ -56,12 +61,15 @@ class Warehouse:
         (self.r, self.c) = map(int, file.readline().split())
         self.storage = map(int, file.readline().split())
 
+    def __str__(self):
+        return str((self.id, (self.r, self.c), self.storage))
+
 class Drone:
-    def __init__(self, id, r, c, maxLoad):
+    def __init__(self, id, r, c, M):
         self.id = id
         self.r = r
         self.c = c
-        self.maxLoad = maxLoad
+        self.M = M
         self.deliveryTime = 0
 
     def scoreFor(self, simulation, order, time):
@@ -82,6 +90,9 @@ class Order:
                 self.items[p] = 1
             else:
                 self.items[p] += 1
+
+    def __str__(self):
+        return str((self.id, (self.r, self.c), self.items))
 
 simulation = Simulation(in_file)
 simulation.printOut()
