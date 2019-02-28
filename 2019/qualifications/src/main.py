@@ -131,8 +131,8 @@ def construct_slides():
     # Vertical photos remaining
     while len(photos_remaining) != 0:
         photo = photos_remaining.pop()
-        best = 1
-        common_tags_count = tags_in_common(photo, photos_remaining[1])
+        best = 0
+        common_tags_count = tags_in_common(photo, photos_remaining[0])
         for i in range(2, len(photos_remaining)):
             other = photos_remaining[i]
             ctg = tags_in_common(photo, other)
