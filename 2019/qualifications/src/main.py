@@ -65,7 +65,7 @@ def solve():
     slides.append(slides_tmp.pop())
     nb_slide = len(slides_tmp)
     for i in range(0, nb_slide-1):  # i is the last slide added
-        best = slides_tmp[0]
+        best = 0
         bestScore = slides[i].scoreWith(slides_tmp[0])
         for j in range(1, len(slides_tmp)):
             score = slides[i].scoreWith(slides_tmp[j])
@@ -126,5 +126,16 @@ def construct_slides():
 
 construct_slides()
 
-for slide in slides_tmp:
-    print(slide)
+ # for slide in slides_tmp:
+ #    print(slide)
+
+solve()
+
+file = open(out_file, "w")
+file.write(str(len(slides)) + "\n")
+for s in slides:
+    if s.id2 == -1:
+        file.write(str(s.id1) + "\n")
+    else:
+        file.write(str(s.id1) + " " + str(s.id2) + "\n")
+
