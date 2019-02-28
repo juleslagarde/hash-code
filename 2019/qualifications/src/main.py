@@ -140,7 +140,7 @@ print(len(photos_v))
 print(len(photos_h))
 
 construct_slides()
-
+random.shuffle(slides_tmp)
  # for slide in slides_tmp:
  #    print(slide)
 
