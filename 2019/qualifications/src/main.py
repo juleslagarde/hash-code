@@ -11,7 +11,7 @@ FILES = [
     "d_pet_pictures",
     "e_shiny_selfies"
 ]
-if len(sys.argv) < 1:
+if len(sys.argv) <= 1:
 	file_index = 2
 else:
 	file_index = int(sys.argv[1])
