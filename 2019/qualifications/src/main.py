@@ -46,7 +46,11 @@ class Slide:
     def __init__(self, id1, id2=-1):
         self.id1 = id1
         self.id2 = id2
-        self.tags = photos[id1].tags + photos[id2].tags
+        self.tags = [] + photos[id1].tags
+        if (id2 != -1):
+            for tag in photos[id2].tags:
+                if not tag in self.tags:
+                    self.tags.append(tag)
         self.lenTags = str(len(self.tags))
 
     def __str__(self):
@@ -159,6 +163,11 @@ construct_slides()
 def nbTags(slide):
     return len(slide.tags)
 
+def score():
+    score = 0
+    for s in range(0, len(slides) - 1):
+        score += slides[s].scoreWith(slides[s + 1])
+    return score
 
 slides_tmp = sorted(slides_tmp, key=nbTags, reverse=True)
 #random.shuffle(slides_tmp)
@@ -176,5 +185,6 @@ for s in slides:
         file.write(str(s.id1) + " " + str(s.id2) + "\n")
 
 print(len(slides))
+print(score())
 #for slide in slides:
 #    print(slide)
