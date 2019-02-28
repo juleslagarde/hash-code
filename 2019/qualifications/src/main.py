@@ -46,10 +46,11 @@ class Slide:
     def __init__(self, id1, id2=-1):
         self.id1 = id1
         self.id2 = id2
-        self.tags = photos[id1].tags
-        for tag in photos[id2].tags:
-            if tag not in self.tags:
-                self.tags.append()
+        self.tags = [] + photos[id1].tags
+        if (id2 != -1):
+            for tag in photos[id2].tags:
+                if not tag in self.tags:
+                    self.tags.append(tag)
         self.lenTags = str(len(self.tags))
 
     def __str__(self):
@@ -78,7 +79,7 @@ def solve():
     while len(slides_tmp) != 0:
         best = 0
         bestScore = slide.scoreWith(slides_tmp[0])
-        for j in range(1, min(10, len(slides_tmp))):
+        for j in range(1, min(100, len(slides_tmp))):
             score = slide.scoreWith(slides_tmp[j])
             if bestScore < score:
                 bestScore = score
@@ -177,6 +178,11 @@ construct_slides()
 def nbTags(slide):
     return len(slide.tags)
 
+def score():
+    score = 0
+    for s in range(0, len(slides) - 1):
+        score += slides[s].scoreWith(slides[s + 1])
+    return score
 
 slides_tmp = sorted(slides_tmp, key=nbTags, reverse=True)
 #random.shuffle(slides_tmp)
@@ -194,10 +200,6 @@ for s in slides:
         file.write(str(s.id1) + " " + str(s.id2) + "\n")
 
 print(len(slides))
+print("score + "+str(score()))
 #for slide in slides:
 #    print(slide)
-
-score = 0
-for i in range(0, len(slides)-1):
-    score += slides[i].scoreWith(slides[i+1])
-print("score : "+str(score))
