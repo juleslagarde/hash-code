@@ -75,7 +75,7 @@ def solve():
     while len(slides_tmp) != 0:
         best = 0
         bestScore = slide.scoreWith(slides_tmp[0])
-        for j in range(1, min(1000, len(slides_tmp))):
+        for j in range(1, min(100, len(slides_tmp))):
             score = slide.scoreWith(slides_tmp[j])
             if bestScore < score:
                 bestScore = score
@@ -133,7 +133,7 @@ def construct_slides():
         photo = photos_remaining.pop()
         best = 0
         common_tags_count = tags_in_common(photo, photos_remaining[0])
-        for i in range(2, len(photos_remaining)):
+        for i in range(1, len(photos_remaining)):
             other = photos_remaining[i]
             ctg = tags_in_common(photo, other)
             if ctg < common_tags_count:
