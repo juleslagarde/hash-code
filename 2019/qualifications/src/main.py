@@ -75,7 +75,7 @@ def solve():
     while len(slides_tmp) != 0:
         best = 0
         bestScore = slide.scoreWith(slides_tmp[0])
-        for j in range(1, min(100, len(slides_tmp))):
+        for j in range(1, min(1000, len(slides_tmp))):
             score = slide.scoreWith(slides_tmp[j])
             if bestScore < score:
                 bestScore = score
@@ -168,5 +168,5 @@ for s in slides:
         file.write(str(s.id1) + " " + str(s.id2) + "\n")
 
 print(len(slides))
-for slide in slides:
-    print(slide)
+#for slide in slides:
+#    print(slide)
