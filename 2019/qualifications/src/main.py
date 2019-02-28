@@ -58,7 +58,7 @@ class Slide:
 
         for tag in slide.tags:
             if tag not in self.tags:
-                unique2Cpt += 2
+                unique2Cpt += 1
 
         return min(min(unique1Cpt, commonCpt), unique2Cpt)
 
