@@ -27,12 +27,19 @@ class Photo:
 f = open(in_file, "r")
 photos_count = int(f.readline())
 photos = []
+photos_h = []
+photos_v = []
 slides = []
 
 for p in range(0, photos_count):
-    photos.append(Photo(p, f))
+    photo = Photo(p, f)
+    if photo.orientation == "H":
+        photos_h.append(photo)
+    else:
+        photos_v.append(photo)
+    photos.append(photo)
 
 #===========================
 
-for p in photos:
-    print(p)
+for photo in photos_v:
+    print(photo)
