@@ -1,5 +1,5 @@
 import math
-from solve2 import *
+from solve1 import *
 
 IN_FOLDER = "../in/"
 OUT_FOLDER = "../out/"
@@ -9,14 +9,17 @@ FILES = [
     "mother_of_all_warehouses",
     "redundancy",
 ]
-file_index = 0
+file_index = 3
 in_file = IN_FOLDER + FILES[file_index] + ".in"
 out_file = OUT_FOLDER + FILES[file_index] + ".out"
 
+totalscore = 0
+
 def distance(r0, c0, r1, c1):
-    dr = r0-r1
-    dc = c0-c1
-    return math.ceil(math.sqrt(dr*dr+dc*dc))
+    dr = r0 - r1
+    dc = c0 - c1
+    return math.ceil(math.sqrt(dr * dr + dc * dc))
+
 
 class Simulation:
     def __init__(self, filename):
@@ -42,18 +45,15 @@ class Simulation:
                 if not w in warehouses:
                     warehouses.append(w)
 
-
-        self.orders = []
+        self.orders = {}
         self.O = int(f.readline())
         for o in range(0, self.O):
-            self.orders.append(Order(o, f))
+            self.orders[o] = Order(o, f)
 
         self.drones = []
         (start_r, start_c) = (self.warehouses[0].r, self.warehouses[0].c)
         for d in range(0, self.D):
             self.drones.append(Drone(d, start_r, start_c, self.M))
-
-
 
     def printOut(self):
         print(self.R)
@@ -63,8 +63,9 @@ class Simulation:
         print(self.M)
         for warehouse in self.warehouses:
             print(warehouse)
-        for order in self.orders:
-            print(order)
+        for id in self.orders:
+            print(self.orders[id])
+
 
 class Warehouse:
     def __init__(self, id, file):
@@ -80,6 +81,8 @@ class Warehouse:
     def __str__(self):
         return str((self.id, (self.r, self.c), self.storage))
 
+
+
 class Drone:
     def __init__(self, id, r, c, M):
         self.id = id
@@ -89,7 +92,7 @@ class Drone:
         self.deliveryTime = 0
         self.commands = []
 
-    def scoreFor(self, simulation, order, time):
+    def scoreFor(self, order, simulation, time):
         totalTime = 0
         pos_r = self.r
         pos_c = self.c
@@ -97,38 +100,47 @@ class Drone:
         for pId in order.items:
             closest = None
             for w in simulation.warehousesByProducts[pId]:
-                if w.storage[pId] > order.items[pId] and (closest is None or distance(pos_r, pos_c, w.r, w.c) < distance(pos_r, pos_c, closest.r, closest.c)):
+                if w.storage[pId] >= order.items[pId] and (
+                        closest is None or distance(pos_r, pos_c, w.r, w.c) < distance(pos_r, pos_c, closest.r, closest.c)):
                     closest = w
-            if closest is None :
-                print("no more products "+pId+" in simulation")
+            if closest is None:
+                print("no more products " + str(pId) + " in simulation")
                 return 0
             totalTime += 1 + distance(pos_r, pos_c, closest.r, closest.c)
             (pos_r, pos_c) = (closest.r, closest.c)
         # deliver
         totalTime += 1 + distance(pos_r, pos_c, order.r, order.c)
-        return math.floor(100*(simulation.T-max(time, self.deliveryTime)+totalTime)/simulation.T)
+        return math.floor(100 * (simulation.T - max(time, self.deliveryTime) + totalTime) / simulation.T)
 
-    def deliver(self, simulation, order):
+    def deliver(self, simulation, order, time):
+        global totalscore;
         commands = self.calculateCommands(simulation, order)
-        self.commands.append(commands)
+        if len(commands) == 0:
+            return
+        self.commands += commands
         self.deliveryTime += self.timeFromCommands(simulation, self.r, self.c, commands)
+        totalscore += math.ceil((simulation.T-self.deliveryTime)/simulation.T*100)
 
     def calculateCommands(self, simulation, order):
         commands = []
+        pos_r = self.r
+        pos_c = self.c
         for pId in order.items:
             closest = None
             for w in simulation.warehousesByProducts[pId]:
-                if w.storage[pId] > order.items[pId] and (closest is None or distance(pos_r, pos_c, w.r, w.c) < distance(pos_r, pos_c, closest.r, closest.c)):
+                if w.storage[pId] >= order.items[pId] and (
+                        closest is None or distance(pos_r, pos_c, w.r, w.c) < distance(pos_r, pos_c, closest.r,
+                                                                                       closest.c)):
                     closest = w
-            if closest is None :
-                print("no more products "+pId+" in simulation")
-                return 0
+            if closest is None:
+                print("command impossible : no more products " + str(pId) + " in simulation")
+                return []
             commands.append(('L', w.id, pId, order.items[pId]))
             (pos_r, pos_c) = (closest.r, closest.c)
         commands.append(('D', order.id, pId, order.items[pId]))
         return commands
 
-    def timeFromCommands(self, simulation, start_r, start_c,  commands):
+    def timeFromCommands(self, simulation, start_r, start_c, commands):
         time = 0
         pos_r = start_r
         pos_c = start_c
@@ -142,10 +154,11 @@ class Drone:
                 p = simulation.orders[c[1]]
                 time += 1 + distance(pos_r, pos_c, p.r, p.c)
             else:
-                print("commands "+c[0]+" not understood")
+                print("commands " + c[0] + " not understood")
+        return time
 
     def getCommands(self):
-        return map(lambda e: (self.id,)+e, self.commands)
+        return map(lambda e: (self.id,) + e, self.commands)
 
 
 class Order:
@@ -163,6 +176,7 @@ class Order:
     def __str__(self):
         return str((self.id, (self.r, self.c), self.items))
 
+
 simulation = Simulation(in_file)
 simulation.printOut()
 solve(simulation)
@@ -170,3 +184,4 @@ solve(simulation)
 for d in simulation.drones:
     for c in d.getCommands():
         print(str(c))
+print(totalscore)
