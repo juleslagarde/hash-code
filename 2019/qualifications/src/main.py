@@ -146,7 +146,7 @@ def nbTags(slide):
     return len(slide.tags)
 
 
-sorted(slides_tmp, key=nbTags)
+sorted(slides_tmp, key=nbTags, reverse=True)
 #random.shuffle(slides_tmp)
  # for slide in slides_tmp:
  #    print(slide)
