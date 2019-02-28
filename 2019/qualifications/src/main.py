@@ -22,7 +22,16 @@ class Photo:
     def __str__(self):
         return str((self.id, self.orientation, self.tags))
 
-#===========================
+def has_tags_in_common(p0, p1):
+    tags0 = p0.tags
+    tags1 = p1.tags
+    for t0 in tags0:
+        for t1 in tags1:
+            if t0 == t1:
+                return True
+    return False
+
+#========= INPUT ===========
 
 f = open(in_file, "r")
 photos_count = int(f.readline())
@@ -30,6 +39,7 @@ photos = []
 photos_h = []
 photos_v = []
 slides = []
+slides_tmp = []
 
 for p in range(0, photos_count):
     photo = Photo(p, f)
@@ -41,5 +51,7 @@ for p in range(0, photos_count):
 
 #===========================
 
-for photo in photos_v:
+for photo in photos:
     print(photo)
+
+print(has_tags_in_common(photos[0], photos[-1]))
