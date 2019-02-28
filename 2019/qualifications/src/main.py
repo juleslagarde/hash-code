@@ -46,7 +46,10 @@ class Slide:
     def __init__(self, id1, id2=-1):
         self.id1 = id1
         self.id2 = id2
-        self.tags = photos[id1].tags + photos[id2].tags
+        self.tags = photos[id1].tags
+        for tag in photos[id2].tags:
+            if tag not in self.tags:
+                self.tags.append()
         self.lenTags = str(len(self.tags))
 
     def __str__(self):
@@ -75,7 +78,7 @@ def solve():
     while len(slides_tmp) != 0:
         best = 0
         bestScore = slide.scoreWith(slides_tmp[0])
-        for j in range(1, min(100, len(slides_tmp))):
+        for j in range(1, min(10, len(slides_tmp))):
             score = slide.scoreWith(slides_tmp[j])
             if bestScore < score:
                 bestScore = score
@@ -89,6 +92,21 @@ def solve3():
         slide = slides_tmp.pop()
         slides.append(slide)
         print(str(len(slides)) + " " + str(slide))
+
+
+def solve4():
+    s_by_tag = {}
+    for s in slides_tmp:
+        for tag in s.tags:
+            if tag in s_by_tag:
+                s_by_tag[tag].append(s)
+            else:
+                s_by_tag[tag] = []
+
+    while len(s_by_tag) != 0:
+        while len(s_by_tag.values()[0]) != 0:
+            pass
+        s_by_tag.pop(s_by_tag.keys()[0])
 
 #========= INPUT ===========
 
@@ -178,3 +196,8 @@ for s in slides:
 print(len(slides))
 #for slide in slides:
 #    print(slide)
+
+score = 0
+for i in range(0, len(slides)-1):
+    score += slides[i].scoreWith(slides[i+1])
+print("score : "+str(score))
