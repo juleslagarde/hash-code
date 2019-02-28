@@ -11,10 +11,11 @@ FILES = [
     "d_pet_pictures",
     "e_shiny_selfies"
 ]
-if len(sys.argv) < 1:
-	file_index = 2
-else:
-	file_index = int(sys.argv[1])
+file_index = 2
+#if len(sys.argv) < 1:
+#	file_index = 2
+#else:
+#	file_index = int(sys.argv[1])
 
 in_file = IN_FOLDER + FILES[file_index] + ".txt"
 out_file = OUT_FOLDER + FILES[file_index] + ".out"
@@ -130,9 +131,17 @@ def construct_slides():
             photos_remaining.append(photo)
     # Vertical photos remaining
     while len(photos_remaining) != 0:
-        p0 = photos_remaining.pop()
-        p1 = photos_remaining.pop()
-        slides_tmp.append(Slide(p0.id, p1.id))
+        photo = photos_remaining.pop()
+        best = 1
+        common_tags_count = tags_in_common(photo, photos_remaining[1])
+        for i in range(2, len(photos_remaining)):
+            other = photos_remaining[i]
+            ctg = tags_in_common(photo, other)
+            if ctg < common_tags_count:
+                common_tags_count = ctg
+                best = i
+        other = photos_remaining.pop()
+        slides_tmp.append(Slide(photo.id, other.id))
 
     # Horizontal photos
     for photo in photos_h:
