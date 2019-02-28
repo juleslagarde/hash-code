@@ -63,16 +63,18 @@ class Slide:
 
 def solve():
     slides.append(slides_tmp.pop())
-    nb_slide = len(slides_tmp)
-    for i in range(0, nb_slide-1):  # i is the last slide added
-        best = slides_tmp[0]
-        bestScore = slides[i].scoreWith(slides_tmp[0])
+    slide = slides[0]
+    while len(slides_tmp) != 0:
+        best = 0
+        bestScore = slide.scoreWith(slides_tmp[0])
         for j in range(1, len(slides_tmp)):
-            score = slides[i].scoreWith(slides_tmp[j])
+            score = slide.scoreWith(slides_tmp[j])
             if bestScore < score:
                 bestScore = score
                 best = j
-        slides.append(slides_tmp.pop(best))
+        slide = slides_tmp.pop(best)
+        slides.append(slide)
+        print(len(slides))
 
 #========= INPUT ===========
 
@@ -125,6 +127,9 @@ def construct_slides():
 #    print(photo)
 
 construct_slides()
-
-for slide in slides_tmp:
+#for slide in slides_tmp:
+#    print(slide)
+solve()
+print(len(slides))
+for slide in slides:
     print(slide)
