@@ -1,4 +1,5 @@
 import math
+import random
 
 IN_FOLDER = "../in/"
 OUT_FOLDER = "../out/"
@@ -9,7 +10,7 @@ FILES = [
     "d_pet_pictures",
     "e_shiny_selfies"
 ]
-file_index = 2
+file_index = 1
 in_file = IN_FOLDER + FILES[file_index] + ".txt"
 out_file = OUT_FOLDER + FILES[file_index] + ".out"
 
@@ -68,12 +69,18 @@ def solve():
     while len(slides_tmp) != 0:
         best = 0
         bestScore = slide.scoreWith(slides_tmp[0])
-        for j in range(1, len(slides_tmp)):
+        for j in range(1, min(100, len(slides_tmp))):
             score = slide.scoreWith(slides_tmp[j])
             if bestScore < score:
                 bestScore = score
                 best = j
         slide = slides_tmp.pop(best)
+        slides.append(slide)
+        print(str(len(slides)) + " " + str(slide))
+
+def solve3():
+    while len(slides_tmp) != 0:
+        slide = slides_tmp.pop()
         slides.append(slide)
         print(str(len(slides)) + " " + str(slide))
 
