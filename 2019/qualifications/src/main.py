@@ -1,3 +1,5 @@
+import math
+
 IN_FOLDER = "../in/"
 OUT_FOLDER = "../out/"
 FILES = [
@@ -54,9 +56,22 @@ class Slide:
 
         for tag in slide.tags:
             if tag not in self.tags:
-                unique2Cpt += 2\
+                unique2Cpt += 2
 
         return min(min(unique1Cpt, commonCpt), unique2Cpt)
+
+def solve():
+    slides.append(slides_tmp.pop())
+    nb_slide = len(slides_tmp)
+    for i in range(0, nb_slide-1):  # i is the last slide added
+        best = slides_tmp[0]
+        bestScore = slides[i].scoreWith(slides_tmp[0])
+        for j in range(1, len(slides_tmp)):
+            score = slides[i].scoreWith(slides_tmp[j])
+            if bestScore < score:
+                bestScore = score
+                best = j
+        slides.append(slides_tmp.pop(best))
 
 #========= INPUT ===========
 
