@@ -4,12 +4,12 @@ IN_FOLDER = "../in/"
 OUT_FOLDER = "../out/"
 FILES = [
     "a_example",
-    "b_lovely_landscapes"
-    "c_memorable_moments"
-    "d_pet_pictures"
+    "b_lovely_landscapes",
+    "c_memorable_moments",
+    "d_pet_pictures",
     "e_shiny_selfies"
 ]
-file_index = 0
+file_index = 2
 in_file = IN_FOLDER + FILES[file_index] + ".txt"
 out_file = OUT_FOLDER + FILES[file_index] + ".out"
 
@@ -24,14 +24,15 @@ class Photo:
     def __str__(self):
         return str((self.id, self.orientation, self.tags))
 
-def has_tags_in_common(p0, p1):
+def tags_in_common(p0, p1):
     tags0 = p0.tags
     tags1 = p1.tags
+    count = 0
     for t0 in tags0:
         for t1 in tags1:
             if t0 == t1:
-                return True
-    return False
+                count += 1
+    return count
 
 #===========================
 
@@ -94,7 +95,36 @@ for p in range(0, photos_count):
 
 #===========================
 
-for photo in photos:
-    print(photo)
+def construct_slides():
+    # Vertical photos with none tags in common
+    photos_remaining = []
+    while len(photos_v) != 0:
+        photo = photos_v.pop()
+        if len(photos_v) == 0:
+            photos_remaining.append(photo)
+            break
+        for other in photos_v:
+            if tags_in_common(photo, other) == 0:
+                slides_tmp.append(Slide(photo.id, other.id))
+                photos_v.remove(other)
+                break
+            else:
+                photos_remaining.append(photo)
+    # Vertical photos remaining
+    while len(photos_remaining) != 0:
+        p0 = photos_remaining.pop()
+        p1 = photos_remaining.pop()
+        slides_tmp.append(Slide(p0.id, p1.id))
 
-print(has_tags_in_common(photos[0], photos[-1]))
+    # Horizontal photos
+    for photo in photos_h:
+        slides_tmp.append(Slide(photo.id))
+
+
+#for photo in photos:
+#    print(photo)
+
+construct_slides()
+
+for slide in slides_tmp:
+    print(slide)
