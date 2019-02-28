@@ -1,5 +1,6 @@
 import math
 import random
+import sys
 
 IN_FOLDER = "../in/"
 OUT_FOLDER = "../out/"
@@ -10,7 +11,11 @@ FILES = [
     "d_pet_pictures",
     "e_shiny_selfies"
 ]
-file_index = 1
+if len(sys.argv) < 1:
+	file_index = 2
+else:
+	file_index = int(sys.argv[1])
+
 in_file = IN_FOLDER + FILES[file_index] + ".txt"
 out_file = OUT_FOLDER + FILES[file_index] + ".out"
 
@@ -42,9 +47,10 @@ class Slide:
         self.id1 = id1
         self.id2 = id2
         self.tags = photos[id1].tags + photos[id2].tags
+        self.lenTags = str(len(self.tags))
 
     def __str__(self):
-        return str((self.id1, self.id2))
+        return str((self.id1, self.id2))+self.lenTags
 
     def scoreWith(self, slide):
         unique1Cpt = 0
