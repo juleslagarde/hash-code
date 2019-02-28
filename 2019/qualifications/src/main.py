@@ -133,7 +133,20 @@ print(len(photos_v))
 print(len(photos_h))
 
 construct_slides()
-#for slide in slides_tmp:
-#    print(slide)
+
+ # for slide in slides_tmp:
+ #    print(slide)
 
 solve()
+
+file = open(out_file, "w")
+file.write(str(len(slides)) + "\n")
+for s in slides:
+    if s.id2 == -1:
+        file.write(str(s.id1) + "\n")
+    else:
+        file.write(str(s.id1) + " " + str(s.id2) + "\n")
+
+print(len(slides))
+for slide in slides:
+    print(slide)
