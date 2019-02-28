@@ -31,7 +31,35 @@ def has_tags_in_common(p0, p1):
                 return True
     return False
 
+#===========================
+
+class Slide:
+    def __init__(self, id1, id2=-1):
+        self.id1 = id1
+        self.id2 = id2
+        self.tags = photos[id1].tags + photos[id2].tags
+
+    def __str__(self):
+        return str((self.id1, self.id2))
+
+    def scoreWith(self, slide):
+        unique1Cpt = 0
+        unique2Cpt = 0
+        commonCpt = 0
+        for tag in self.tags:
+            if tag in slide.tags:
+                commonCpt += 1
+            else:
+                unique1Cpt += 1
+
+        for tag in slide.tags:
+            if tag not in self.tags:
+                unique2Cpt += 2\
+
+        return min(min(unique1Cpt, commonCpt), unique2Cpt)
+
 #========= INPUT ===========
+
 
 f = open(in_file, "r")
 photos_count = int(f.readline())
