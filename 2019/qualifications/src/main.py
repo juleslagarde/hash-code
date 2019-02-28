@@ -11,11 +11,10 @@ FILES = [
     "d_pet_pictures",
     "e_shiny_selfies"
 ]
-file_index = 2
-#if len(sys.argv) < 1:
-#	file_index = 2
-#else:
-#	file_index = int(sys.argv[1])
+if len(sys.argv) < 1:
+	file_index = 2
+else:
+	file_index = int(sys.argv[1])
 
 in_file = IN_FOLDER + FILES[file_index] + ".txt"
 out_file = OUT_FOLDER + FILES[file_index] + ".out"
