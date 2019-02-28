@@ -62,8 +62,9 @@ class Slide:
         return min(min(unique1Cpt, commonCpt), unique2Cpt)
 
 def solve():
-    slides.append(slides_tmp.pop())
-    slide = slides[0]
+    slide = slides_tmp.pop()
+    slides.append(slide)
+    print("0 " + str(slide))
     while len(slides_tmp) != 0:
         best = 0
         bestScore = slide.scoreWith(slides_tmp[0])
@@ -74,7 +75,7 @@ def solve():
                 best = j
         slide = slides_tmp.pop(best)
         slides.append(slide)
-        print(len(slides))
+        print(str(len(slides)) + " " + str(slide))
 
 #========= INPUT ===========
 
@@ -105,13 +106,15 @@ def construct_slides():
         if len(photos_v) == 0:
             photos_remaining.append(photo)
             break
+        found = False
         for other in photos_v:
             if tags_in_common(photo, other) == 0:
                 slides_tmp.append(Slide(photo.id, other.id))
                 photos_v.remove(other)
+                found = True
                 break
-            else:
-                photos_remaining.append(photo)
+        if not found:
+            photos_remaining.append(photo)
     # Vertical photos remaining
     while len(photos_remaining) != 0:
         p0 = photos_remaining.pop()
@@ -125,11 +128,12 @@ def construct_slides():
 
 #for photo in photos:
 #    print(photo)
+print(len(photos))
+print(len(photos_v))
+print(len(photos_h))
 
 construct_slides()
 #for slide in slides_tmp:
 #    print(slide)
+
 solve()
-print(len(slides))
-for slide in slides:
-    print(slide)
