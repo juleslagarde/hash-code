@@ -1,7 +1,4 @@
-import math
-import random
 import sys
-from globals import *
 from slides_creation import *
 from slides_organisation import *
 from data_structures import *
@@ -46,18 +43,8 @@ print(len(photos_h))
 
 construct_slides()
 
-
-def score():
-    score = 0
-    for s in range(0, len(slides) - 1):
-        score += slides[s].scoreWith(slides[s + 1])
-    return score
-
-
 slides_tmp = sorted(slides_tmp, key=lambda slide: len(slide.tags), reverse=True)
 # random.shuffle(slides_tmp)
-# for slide in slides_tmp:
-#    print(slide)
 
 solve1()
 
@@ -70,6 +57,6 @@ for s in slides:
         file.write(str(s.id1) + " " + str(s.id2) + "\n")
 
 print(len(slides))
-print("score + "+str(score()))
-#for slide in slides:
+print("score + " + str(calcScore()))
+# for slide in slides:
 #    print(slide)

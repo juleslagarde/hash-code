@@ -1,9 +1,15 @@
-
 photos = []
 photos_h = []
 photos_v = []
 slides = []
 slides_tmp = []
+
+
+def calcScore():
+    score = 0
+    for s in range(0, len(slides) - 1):
+        score += slides[s].scoreWith(slides[s + 1])
+    return score
 
 
 def tags_in_common(p0, p1):

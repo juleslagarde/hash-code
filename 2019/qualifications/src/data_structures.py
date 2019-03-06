@@ -20,12 +20,12 @@ class Slide:
         self.tags = [] + photos[id1].tags
         if id2 != -1:
             for tag in photos[id2].tags:
-                if not tag in self.tags:
+                if tag not in self.tags:
                     self.tags.append(tag)
         self.lenTags = str(len(self.tags))
 
     def __str__(self):
-        return str((self.id1, self.id2))+self.lenTags
+        return str((self.id1, self.id2)) + self.lenTags
 
     def scoreWith(self, slide):
         unique1Cpt = 0
