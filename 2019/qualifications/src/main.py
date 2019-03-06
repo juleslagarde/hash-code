@@ -72,13 +72,14 @@ class Slide:
 
         return min(min(unique1Cpt, commonCpt), unique2Cpt)
 
-def solve():
+
+def solve1():
     slide = slides_tmp.pop()
     slides.append(slide)
     print("0 " + str(slide))
     while len(slides_tmp) != 0:
         best = 0
-        bestScore = slide.scoreWith(slides_tmp[0])
+        bestScore = slide.scoreWith(slides_tmp[best])
         for j in range(1, min(100, len(slides_tmp))):
             score = slide.scoreWith(slides_tmp[j])
             if bestScore < score:
@@ -86,7 +87,27 @@ def solve():
                 best = j
         slide = slides_tmp.pop(best)
         slides.append(slide)
-        print(str(len(slides)) + " " + str(slide))
+        print(str(len(slides)) + " " + str(best) + " " + str(slide))
+
+
+def solve1bis():
+    slide = slides_tmp.pop()
+    slides.append(slide)
+    print("0 " + str(slide))
+    len_slides = len(slides_tmp)
+    for i in range(-1, len_slides-1):
+        best = i+1
+        bestScore = slide.scoreWith(slides_tmp[best])
+        for j in range(i+1, min(i+100, len_slides)):
+            score = slide.scoreWith(slides_tmp[j])
+            if bestScore < score:
+                bestScore = score
+                best = j
+        slide = slides_tmp[best]
+        slides.append(slide)
+        slides_tmp[i], slides_tmp[best] = slides_tmp[best], slides_tmp[i]
+        print(str(len(slides)) + " " + str(best-i) + " " + str(slide))
+
 
 def solve3():
     while len(slides_tmp) != 0:
@@ -104,12 +125,13 @@ def solve4():
             else:
                 s_by_tag[tag] = []
 
-    while len(s_by_tag) != 0:
-        while len(s_by_tag.values()[0]) != 0:
-            pass
-        s_by_tag.pop(s_by_tag.keys()[0])
 
-#========= INPUT ===========
+    while len(s_by_tag) != 0:
+        while len(s_by_tag.values()) != 0:
+            pass
+        s_by_tag.pop(s_by_tag.keys())
+
+# ========= INPUT ===========
 
 
 f = open(in_file, "r")
@@ -128,7 +150,8 @@ for p in range(0, photos_count):
         photos_v.append(photo)
     photos.append(photo)
 
-#===========================
+# ===========================
+
 
 def construct_slides():
     # Vertical photos with none tags in common
@@ -166,7 +189,7 @@ def construct_slides():
         slides_tmp.append(Slide(photo.id))
 
 
-#for photo in photos:
+# for photo in photos:
 #    print(photo)
 print(len(photos))
 print(len(photos_v))
@@ -178,18 +201,20 @@ construct_slides()
 def nbTags(slide):
     return len(slide.tags)
 
+
 def score():
     score = 0
     for s in range(0, len(slides) - 1):
         score += slides[s].scoreWith(slides[s + 1])
     return score
 
-slides_tmp = sorted(slides_tmp, key=nbTags, reverse=True)
-#random.shuffle(slides_tmp)
- # for slide in slides_tmp:
- #    print(slide)
 
-solve()
+slides_tmp = sorted(slides_tmp, key=nbTags, reverse=True)
+# random.shuffle(slides_tmp)
+# for slide in slides_tmp:
+#    print(slide)
+
+solve1()
 
 file = open(out_file, "w")
 file.write(str(len(slides)) + "\n")
