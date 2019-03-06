@@ -46,7 +46,7 @@ construct_slides()
 slides_tmp = sorted(slides_tmp, key=lambda slide: len(slide.tags), reverse=True)
 # random.shuffle(slides_tmp)
 
-solve1()
+solve4()
 
 file = open(out_file, "w")
 file.write(str(len(slides)) + "\n")
